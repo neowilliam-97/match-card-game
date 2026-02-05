@@ -12,7 +12,9 @@
     background-color: #AF0000;
 }
 .home-screen {
-    /* position: relative; */
+    position: relative;
+    display: flex;
+    flex-direction: column;
     height: 3840px;
     gap: 120px;
     padding-block: 440px;
@@ -56,4 +58,38 @@
     line-height: 120%;
     font-weight: 400;
     color: #FDF493;
+}
+.action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+}
+.btn {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    /* justify-content: center; */
+    color: #DB0011;
+    font-family: Open Sans;
+    font-size: 92px;
+    line-height: 120%;
+    font-weight: 700;
+    width: 682px;
+    height: 240px;
+    background-image: url(/assets/CTA-Button.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.btn:hover {
+    transform: scale(104%);
+    transition: 300ms;
+}
+video {
+    position: absolute;
+    top: 150px;
+    right: 150px;
 }
