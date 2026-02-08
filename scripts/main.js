@@ -81,6 +81,82 @@ if (document.readyState === 'loading') {
 }
 
 /* =========================
+   0.5 Auto Redirect to Home (Inactivity Timer)
+========================= */
+// let inactivityTimer = null;
+// const INACTIVITY_TIME = 10000; // 10 giây (đơn vị: milliseconds)
+
+// function resetInactivityTimer() {
+//   // Clear timer hiện tại
+//   if (inactivityTimer) {
+//     clearTimeout(inactivityTimer);
+//   }
+  
+//   // Chỉ set timer khi KHÔNG ở home screen
+//   const homeScreen = document.getElementById('home_screen');
+//   const isOnHomeScreen = !homeScreen.classList.contains('is-hidden');
+  
+//   if (isOnHomeScreen) {
+//     console.log('On home screen, inactivity timer disabled');
+//     return;
+//   }
+  
+//   console.log('Resetting inactivity timer...');
+  
+//   // Set timer mới
+//   inactivityTimer = setTimeout(() => {
+//     console.log('User inactive for 10 seconds, redirecting to home...');
+//     redirectToHome();
+//   }, INACTIVITY_TIME);
+// }
+
+// function redirectToHome() {
+//   const homeScreen = document.getElementById('home_screen');
+//   const gameScreen = document.getElementById('game-screen');
+//   const winModal = document.getElementById('win-modal');
+//   const gameOverModal = document.getElementById('gameover-modal');
+//   const rankModal = document.getElementById('rank-modal'); // ADDED
+  
+//   // Hide all screens and modals
+//   gameScreen.classList.add('is-hidden');
+//   winModal.classList.add('is-hidden');
+//   gameOverModal.classList.add('is-hidden');
+//   rankModal.classList.add('is-hidden'); // ADDED
+  
+//   // Show home screen
+//   homeScreen.classList.remove('is-hidden');
+  
+//   // Remove all matched and shake classes
+//   document.querySelectorAll('.card-wrapper').forEach(card => {
+//     card.classList.remove('is-matched', 'shake', 'is-flipped');
+//   });
+  
+//   // Reset game state
+//   matchedPairs = 0;
+//   clearInterval(timerInterval);
+//   createMultipliedCards();
+//   shuffleCards(multipliedCards);
+//   renderCards();
+//   resetBoard();
+//   initFlipCard();
+  
+//   // Clear inactivity timer
+//   if (inactivityTimer) {
+//     clearTimeout(inactivityTimer);
+//     inactivityTimer = null;
+//   }
+  
+//   console.log('Redirected to home screen');
+// }
+
+// // Lắng nghe các sự kiện user interaction
+// const interactionEvents = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+
+// interactionEvents.forEach(event => {
+//   document.addEventListener(event, resetInactivityTimer, true);
+// });
+
+/* =========================
    1. Button Audio
 ========================= */
 function btnAudio() {
@@ -108,14 +184,14 @@ const cardList = [
 ];
 
 /* =========================
-   3. Multiply cards (x3)
+   3. Multiply cards (xn)
 ========================= */
 let multipliedCards = [];
 
 function createMultipliedCards() {
   multipliedCards = [];
   cardList.forEach((card) => {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
       multipliedCards.push({ ...card });
     }
   });
@@ -195,26 +271,29 @@ function handleCardClick() {
 function checkForMatch() {
   const isMatch = firstCard.dataset.type === secondCard.dataset.type;
   
-  if (isMatch) {
-    console.log('Cards matched!');
-    // Phát âm thanh match đúng
-    setTimeout(() => {
+  // Đợi animation flip hoàn thành (0.6s) trước khi áp dụng hiệu ứng
+  setTimeout(() => {
+    if (isMatch) {
+      console.log('Cards matched!');
+      // Phát âm thanh match đúng
       playSound(matchCorrectSound, true);
-    }, 300);
-    disableCards();
-  } else {
-    console.log('Cards do not match!');
-    // Phát âm thanh match sai
-    setTimeout(() => {
+      disableCards();
+    } else {
+      console.log('Cards do not match!');
+      // Phát âm thanh match sai
       playSound(matchWrongSound, true);
-    }, 300);
-    unflipCards();
-  }
+      unflipCards();
+    }
+  }, 600); // Đợi 0.6s để flip animation hoàn thành
 }
 
 function disableCards() {
   firstCard.removeEventListener('click', handleCardClick);
   secondCard.removeEventListener('click', handleCardClick);
+
+  // Thêm class is-matched để giảm opacity
+  firstCard.classList.add('is-matched');
+  secondCard.classList.add('is-matched');
 
   matchedPairs++;
   console.log('Matched pairs:', matchedPairs);
@@ -235,11 +314,22 @@ function disableCards() {
 }
 
 function unflipCards() {
+  // Thêm shake animation cho cả 2 thẻ không khớp ngay lập tức
+  firstCard.classList.add('shake');
+  secondCard.classList.add('shake');
+  
+  // Đợi shake animation xong (0.5s) rồi mới flip lại
   setTimeout(() => {
     firstCard.classList.remove('is-flipped');
     secondCard.classList.remove('is-flipped');
-    resetBoard();
-  }, 600);
+    
+    // Remove shake class sau khi flip lại
+    setTimeout(() => {
+      firstCard.classList.remove('shake');
+      secondCard.classList.remove('shake');
+      resetBoard();
+    }, 600); // Đợi flip animation hoàn thành
+  }, 500); // Đợi shake animation xong
 }
 
 function resetBoard() {
@@ -256,6 +346,7 @@ initFlipCard();
 let gameTime = 30;
 let currentTime = gameTime;
 let timerInterval = null;
+let finalTime = 0; // ADDED: Lưu thời gian chiến thắng
 
 function renderTime() {
   const timeEl = document.querySelector('.time-down');
@@ -291,14 +382,103 @@ function handleTimeUp() {
 }
 
 /* =========================
+   ADDED: 7.5 Leaderboard System
+========================= */
+function saveScore(playerName, time) {
+  if (!playerName || playerName.trim() === '') {
+    alert('Please enter your name!');
+    return false;
+  }
+  
+  // Lấy leaderboard từ localStorage
+  let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+  
+  // Thêm score mới
+  leaderboard.push({
+    name: playerName.trim(),
+    time: time,
+    date: new Date().toISOString()
+  });
+  
+  // Sắp xếp theo thời gian (nhanh nhất lên đầu)
+  leaderboard.sort((a, b) => a.time - b.time);
+  
+  // Giữ top 10
+  leaderboard = leaderboard.slice(0, 10);
+  
+  // Lưu vào localStorage
+  localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+  
+  console.log('Score saved!', { name: playerName, time: time });
+  return true;
+}
+
+function getLeaderboard() {
+  return JSON.parse(localStorage.getItem('leaderboard')) || [];
+}
+
+function formatTime(seconds) {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+function displayLeaderboard() {
+  const leaderboard = getLeaderboard();
+  const leaderboardList = document.getElementById('leaderboard-list');
+  
+  if (leaderboard.length === 0) {
+    leaderboardList.innerHTML = '<div class="leaderboard-empty">No scores yet!<br>Be the first to play!</div>';
+    return;
+  }
+  
+  leaderboardList.innerHTML = '';
+  
+  leaderboard.forEach((score, index) => {
+    const item = document.createElement('div');
+    item.className = `leaderboard-item ${index < 3 ? 'top-3' : ''}`;
+    
+    let rankEmoji = '';
+    if (index === 0) rankEmoji = '🥇';
+    else if (index === 1) rankEmoji = '🥈';
+    else if (index === 2) rankEmoji = '🥉';
+    else rankEmoji = `${index + 1}.`;
+    
+    item.innerHTML = `
+      <div class="leaderboard-rank">${rankEmoji}</div>
+      <div class="leaderboard-name">${score.name}</div>
+      <div class="leaderboard-time">${formatTime(score.time)}</div>
+    `;
+    
+    leaderboardList.appendChild(item);
+  });
+}
+/* =========================
+   END ADDED
+========================= */
+
+/* =========================
    8. Modals
 ========================= */
 const winModal = document.getElementById('win-modal');
 const gameOverModal = document.getElementById('gameover-modal');
+const rankModal = document.getElementById('rank-modal'); // ADDED
 
 function showWinModal() {
+  // ADDED: Tính thời gian hoàn thành
+  finalTime = gameTime - currentTime;
+  
   setTimeout(() => {
+    // ADDED: Hiển thị thời gian
+    document.getElementById('win-time').textContent = formatTime(finalTime);
+    
+    // ADDED: Reset name input
+    document.getElementById('player-name').value = '';
+    document.querySelector('.name-input-wrapper').classList.remove('is-saved');
+    
     winModal.classList.remove('is-hidden');
+    // Start inactivity timer khi modal hiện
+    resetInactivityTimer();
   }, 500);
 }
 
@@ -308,6 +488,8 @@ function showGameOverModal() {
     matchedCountEl.textContent = matchedPairs;
     
     gameOverModal.classList.remove('is-hidden');
+    // Start inactivity timer khi modal hiện
+    resetInactivityTimer();
   }, 500);
 }
 
@@ -326,6 +508,11 @@ function resetGame() {
   // Reset timer
   clearInterval(timerInterval);
   
+  // Remove all matched and shake classes
+  document.querySelectorAll('.card-wrapper').forEach(card => {
+    card.classList.remove('is-matched', 'shake', 'is-flipped');
+  });
+  
   // Recreate and shuffle cards
   createMultipliedCards();
   shuffleCards(multipliedCards);
@@ -339,6 +526,9 @@ function resetGame() {
   
   // Start timer
   startTimer();
+  
+  // Reset inactivity timer
+  resetInactivityTimer();
 }
 
 /* =========================
@@ -360,6 +550,9 @@ playBtn.addEventListener('click', () => {
   }
   
   startTimer();
+  
+  // Start inactivity timer khi vào game screen
+  resetInactivityTimer();
 });
 
 /* =========================
@@ -367,6 +560,71 @@ playBtn.addEventListener('click', () => {
 ========================= */
 const homeBtn = document.querySelector('.btn--home');
 const retryBtn = document.querySelector('.btn--retry');
+const saveScoreBtn = document.querySelector('.btn-save-score'); // ADDED
+const rankBtn = document.querySelector('.btn--rank'); // ADDED
+const closeRankBtn = document.querySelector('.btn--close-rank'); // ADDED
+
+/* =========================
+   ADDED: Save Score & Rank Buttons
+========================= */
+// SAVE SCORE button
+if (saveScoreBtn) {
+  saveScoreBtn.addEventListener('click', () => {
+    const playerNameInput = document.getElementById('player-name');
+    const playerName = playerNameInput.value.trim();
+    
+    if (playerName === '') {
+      alert('Please enter your name!');
+      return;
+    }
+    
+    // Save score
+    if (saveScore(playerName, finalTime)) {
+      playSound(clickSound, true);
+      
+      // Disable input after saving
+      document.querySelector('.name-input-wrapper').classList.add('is-saved');
+      
+      // Show success message
+      alert(`Score saved! You completed in ${formatTime(finalTime)}!`);
+    }
+  });
+}
+
+// RANK button - show leaderboard
+if (rankBtn) {
+  rankBtn.addEventListener('click', () => {
+    console.log('Rank button clicked!');
+    playSound(clickSound, true);
+    
+    // Display leaderboard
+    displayLeaderboard();
+    
+    // Show rank modal
+    rankModal.classList.remove('is-hidden');
+    
+    // Start inactivity timer
+    resetInactivityTimer();
+  });
+}
+
+// CLOSE RANK button
+if (closeRankBtn) {
+  closeRankBtn.addEventListener('click', () => {
+    console.log('Close rank button clicked!');
+    playSound(clickSound, true);
+    rankModal.classList.add('is-hidden');
+    
+    // Clear inactivity timer when closing
+    if (inactivityTimer) {
+      clearTimeout(inactivityTimer);
+      inactivityTimer = null;
+    }
+  });
+}
+/* =========================
+   END ADDED
+========================= */
 
 // HOME button - quay về home screen
 if (homeBtn) {
@@ -376,6 +634,11 @@ if (homeBtn) {
     gameScreen.classList.add('is-hidden');
     homeScreen.classList.remove('is-hidden');
     
+    // Remove all matched and shake classes
+    document.querySelectorAll('.card-wrapper').forEach(card => {
+      card.classList.remove('is-matched', 'shake', 'is-flipped');
+    });
+    
     // Reset game state
     matchedPairs = 0;
     clearInterval(timerInterval);
@@ -384,6 +647,12 @@ if (homeBtn) {
     renderCards();
     resetBoard();
     initFlipCard();
+    
+    // Clear inactivity timer khi về home
+    if (inactivityTimer) {
+      clearTimeout(inactivityTimer);
+      inactivityTimer = null;
+    }
   });
 }
 

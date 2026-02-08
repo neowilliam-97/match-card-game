@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Flip Match Card</title>
         <link rel="stylesheet" href="./style/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,8 +13,7 @@
         <section id="home_screen" class="home-screen game-wrapper">
             <div class="home-content">
                 <div class="title"></div>
-                <h1 class="h1">Test your memory and
-flip your way to abundance!</h1>
+                <h1 class="h1">Test your memory and<br>flip your way to abundance!</h1>
                 <p class="desc">Flip the tiles, match the seafood, and unlock abundance for the year ahead!</p>
             </div>
             <div class="action">
@@ -56,6 +56,13 @@ flip your way to abundance!</h1>
                     <div class="modal-scroll-content">
                         <img style="width: 1538px; height: 884px;" src="/assets/Well-done.png">
                         <p class="modal-subtitle">You've flipped your<br>way to abundance!</p>
+                        <!-- ADDED: Time display and name input -->
+                        <p class="modal-time">Time: <span id="win-time">00:00</span></p>
+                        <div class="name-input-wrapper">
+                            <input type="text" id="player-name" class="player-name-input" placeholder="Enter your name" maxlength="20">
+                            <div class="btn btn-save-score">Save Score</div>
+                        </div>
+                        <!-- END ADDED -->
                         <p class="modal-desc">Take home your<br>Seafood Plushie and let the<br>good luck swim your way.</p>
                     </div>
                 </div>
@@ -79,6 +86,27 @@ flip your way to abundance!</h1>
                 <img class="scroll-bottom" src="/assets/Scroll.png" alt="scroll bottom">
             </div>
         </div>
+        
+        <!-- ADDED: Leaderboard Modal -->
+        <div id="rank-modal" class="modal is-hidden">
+            <div class="modal-overlay"></div>
+            <div class="modal-content modal-content-rank">
+                <img class="scroll-top" src="/assets/Scroll.png" alt="scroll top">
+                <div class="scroll-body-wrapper scroll-body-wrapper-rank">
+                    <img class="scroll-body" src="/assets/Base.png" alt="scroll body">
+                    <div class="modal-scroll-content">
+                        <h2 class="rank-title">🏆 LEADERBOARD 🏆</h2>
+                        <div class="leaderboard-list" id="leaderboard-list">
+                            <!-- Leaderboard will be populated here -->
+                        </div>
+                    </div>
+                </div>
+                <div class="btn modal-btn-home btn--close-rank">Close</div>
+                <img class="scroll-bottom" src="/assets/Scroll.png" alt="scroll bottom">
+            </div>
+        </div>
+        <!-- END ADDED -->
+        
         <audio id="bg-music" loop>
             <source src="/assets/CNY-Looped.mp3" type="audio/mpeg">
         </audio>
