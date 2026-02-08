@@ -11,17 +11,24 @@
     height: 3840px;
     background-color: #AF0000;
 }
-.home-screen {
+.game-wrapper {
     position: relative;
     display: flex;
     flex-direction: column;
+    align-items: center;
     height: 3840px;
     gap: 120px;
+}
+.home-screen {
     padding-block: 440px;
-    background-image: url(/assets/background-assets.png);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+}
+.bg-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
 }
 .home-content {
     display: flex;
@@ -41,7 +48,7 @@
 }
 .h1 {
     margin: 0px;
-    width: 1410px;
+    width: 1564px;
     text-align: center;
     font-family: Open Sans;
     font-size: 100px;
@@ -79,6 +86,7 @@
     font-weight: 700;
     width: 682px;
     height: 240px;
+    cursor: pointer;
     background-image: url(/assets/CTA-Button.png);
     background-size: cover;
     background-position: center;
@@ -88,8 +96,142 @@
     transform: scale(104%);
     transition: 300ms;
 }
+.btn {
+    animation: pulse 1.5s infinite;
+}
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+}
 video {
     position: absolute;
     top: 150px;
     right: 150px;
+}
+
+/* GAME SCREEN SECTION */
+.game-screen {
+    background-image: url(/assets/game-screen-bg.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.countdown {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-block: 80px;
+    font-family: Open Sans;
+    font-size: 61px;
+    font-weight: 700;
+    line-height: 100%;
+    color: #FDF493;
+    overflow: hidden;
+    width: 781px;
+    height: 506px;
+}
+.time-bg {
+    position: absolute;
+    bottom: 0px;
+    z-index: 0;
+}
+.time-down {
+    font-size: 167px;
+    line-height: 227px;
+    color: #fff;
+    z-index: 2;
+}
+p {
+    z-index: 2;
+}
+/* game area */
+.game-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 80px;
+}
+/* card animation */
+.card-wrapper {
+    width: 386px;
+    height: 386px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+.card-inner {
+    width: 386px;
+    height: 386px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
+}
+.card-back,
+.card-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+.card-front {
+    transform: rotateY(180deg);
+}
+.card-back {
+    transform: rotateY(0deg);
+}
+.card-wrapper.is-flipped .card-inner {
+  transform: rotateY(180deg);
+}
+.card-wrapper {
+  transition: transform 0.2s ease;
+}
+.card-wrapper:hover {
+  transform: scale(0.95);
+}
+.cards-game {
+    /* width: 100%; */
+    display: grid;
+    grid-template-columns: 300px 300px 300px;
+    /* grid-template-rows: 300px 300px; */
+    row-gap: 60px;
+    column-gap: 160px;
+    place-items: center;
+}
+.is-hidden {
+  display: none;
+}
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+}
+
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  padding: 32px;
+  border-radius: 16px;
+  width: 320px;
+  text-align: center;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal-content h2 {
+  margin-bottom: 12px;
+}
+
+.modal-content p {
+  margin-bottom: 20px;
 }

@@ -9,7 +9,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     </head>
     <body class="body">
-        <section id="home_screen" class="home-screen">
+        <section id="home_screen" class="home-screen game-wrapper">
             <div class="home-content">
                 <div class="title"></div>
                 <h1 class="h1">Test your memory and
@@ -17,12 +17,50 @@ flip your way to abundance!</h1>
                 <p class="desc">Flip the tiles, match the seafood, and unlock abundance for the year ahead!</p>
             </div>
             <div class="action">
+                <audio id="click-sound">
+                    <source src="/assets/CTA-button-tap.mp3" type="audio/mpeg">
+                </audio>
                 <div class="btn btn--play">Play</div>
                 <div class="btn btn--rank">Rank</div>
             </div>
-            <video width="261px" height="196px" autoplay muted loop>
-                <source src="/assets/Ingot_Rotation_Demo.mov">
+            <video class="bg-video" width="261px" height="196px" autoplay muted loop>
+                <source src="/assets/DBS_Springfest_Idle.mov">
             </video>
         </section>
+        <section id="game-screen" class="game-screen game-wrapper is-hidden">
+            <div class="countdown">
+                <p>GAME TIME</p>
+                <div class="time-down">00:30</div>
+                <img class="time-bg" src="/assets/game-time-bg.png" alt="">
+            </div>
+            <div class="game-area">
+                <h1 class="h1">Flip and match 3 seafood pairs!</h1>
+                <div class="cards-game">
+                    <template id="card-template">
+                        <div class="card-wrapper">
+                            <div class="card-inner">
+                                <img class="card-back" src="/assets/card-back.png">
+                                <img class="card-front">
+                            </div>
+                        </div>
+                    </template>                                        
+                    <!-- <div class="card-wrapper is-flipped">
+                            <div class="card-inner">
+                                <img class="card-back" src="/assets/card-back.png">
+                                <img class="card-front" src="/assets/card-crab.png">
+                            </div>
+                    </div> -->
+                </div>
+            </div>
+        </section>
+        <div id="win-modal" class="modal is-hidden">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <h2>You Win 🎉</h2>
+                <p>You matched 3 pairs successfully!</p>
+                <button class="btn btn--again">Play Again</button>
+            </div>
+        </div>
+        <script src="/scripts/main.js"></script>
     </body>
 </html>
