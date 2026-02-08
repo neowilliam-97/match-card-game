@@ -56,11 +56,53 @@ flip your way to abundance!</h1>
         <div id="win-modal" class="modal is-hidden">
             <div class="modal-overlay"></div>
             <div class="modal-content">
-                <h2>You Win 🎉</h2>
-                <p>You matched 3 pairs successfully!</p>
-                <button class="btn btn--again">Play Again</button>
+                <img class="scroll-top" src="/assets/Scroll.png" alt="scroll top">
+                <div class="scroll-body-wrapper">
+                    <img class="scroll-body" src="/assets/Base.png" alt="scroll body">
+                    <div class="modal-scroll-content">
+                        <img style="width: 1538px; height: 884px;" src="/assets/Well-done.png">
+                        <p class="modal-subtitle">You've flipped your<br>way to abundance!</p>
+                        <p class="modal-desc">Take home your<br>Seafood Plushie and let the<br>good luck swim your way.</p>
+                    </div>
+                </div>
+                <div class="btn modal-btn-home btn--home">Home</div>
+                <img class="scroll-bottom" src="/assets/Scroll.png" alt="scroll bottom">
+            </div>
+        </div>
+        <div id="gameover-modal" class="modal is-hidden">
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <img class="scroll-top" src="/assets/Scroll.png" alt="scroll top">
+                <div class="scroll-body-wrapper">
+                    <img class="scroll-body" src="/assets/Base.png" alt="scroll body">
+                    <div class="modal-scroll-content">
+                        <img style="width: 1538px;" src="/assets/times-up-text.png">
+                        <p class="modal-subtitle">You matched <span id="matched-count">0</span><br>out of 3 pairs</p>
+                        <p class="modal-desc">Give it another try and<br>uncover your abundance!</p>
+                    </div>
+                </div>
+                <div class="btn modal-btn-home btn--retry">Try Again</div>
+                <img class="scroll-bottom" src="/assets/Scroll.png" alt="scroll bottom">
             </div>
         </div>
         <script src="/scripts/main.js"></script>
+        <audio id="bg-music" loop>
+            <source src="/assets/CNY-Looped.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="card-flip-sound" loop>
+            <source src="/assets/Flip-card-audio.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="match-correct-sound" loop>
+            <source src="/assets/Match-Pair.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="match-wrong-sound" loop>
+            <source src="/assets/Wrong-Pair.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="win-sound" loop>
+            <source src="/assets/Win.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="times-up-sound" loop>
+            <source src="/assets/Times-Up-audio.mp3" type="audio/mpeg">
+        </audio>
     </body>
 </html>

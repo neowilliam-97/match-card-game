@@ -31,11 +31,15 @@ const cardList = [
 ========================= */
 let multipliedCards = [];
 
-cardList.forEach((card) => {
-  for (let i = 0; i < 3; i++) {
-    multipliedCards.push({ ...card });
-  }
-});
+function createMultipliedCards() {
+  multipliedCards = [];
+  cardList.forEach((card) => {
+    for (let i = 0; i < 3; i++) {
+      multipliedCards.push({ ...card });
+    }
+  });
+}
+createMultipliedCards();
 
 /* =========================
    4. Shuffle cards
@@ -54,17 +58,21 @@ shuffleCards(multipliedCards);
 const template = document.getElementById('card-template');
 const cardContainer = document.querySelector('.cards-game');
 
-multipliedCards.forEach((cardData) => {
-  const cardClone = template.content.cloneNode(true);
+function renderCards() {
+  cardContainer.innerHTML = '';
+  
+  multipliedCards.forEach((cardData) => {
+    const cardClone = template.content.cloneNode(true);
+    const cardWrapper = cardClone.querySelector('.card-wrapper');
+    const cardFront = cardClone.querySelector('.card-front');
 
-  const cardWrapper = cardClone.querySelector('.card-wrapper');
-  const cardFront = cardClone.querySelector('.card-front');
+    cardWrapper.dataset.type = cardData.type;
+    cardFront.src = cardData.image;
 
-  cardWrapper.dataset.type = cardData.type;
-  cardFront.src = cardData.image;
-
-  cardContainer.appendChild(cardClone);
-});
+    cardContainer.appendChild(cardClone);
+  });
+}
+renderCards();
 
 /* =========================
    6. Flip Card Logic + WIN
@@ -72,13 +80,11 @@ multipliedCards.forEach((cardData) => {
 let firstCard = null;
 let secondCard = null;
 let lockBoard = false;
-
 let matchedPairs = 0;
-const WIN_PAIRS = 3; // 👈 match đủ 3 cặp là thắng
+const WIN_CONDITION = 3;
 
 function initFlipCard() {
   const cards = document.querySelectorAll('.card-wrapper');
-
   cards.forEach((card) => {
     card.addEventListener('click', handleCardClick);
   });
@@ -102,9 +108,7 @@ function handleCardClick() {
 }
 
 function checkForMatch() {
-  const isMatch =
-    firstCard.dataset.type === secondCard.dataset.type;
-
+  const isMatch = firstCard.dataset.type === secondCard.dataset.type;
   isMatch ? disableCards() : unflipCards();
 }
 
@@ -112,12 +116,11 @@ function disableCards() {
   firstCard.removeEventListener('click', handleCardClick);
   secondCard.removeEventListener('click', handleCardClick);
 
-  matchedPairs++; // ✅ tăng số cặp match đúng
+  matchedPairs++;
 
-  if (matchedPairs === WIN_PAIRS) {
-    setTimeout(() => {
-      alert("🎉 YOU WIN 🎉");
-    }, 300);
+  if (matchedPairs === WIN_CONDITION) {
+    clearInterval(timerInterval);
+    showWinModal();
   }
 
   resetBoard();
@@ -138,21 +141,22 @@ function resetBoard() {
 }
 
 initFlipCard();
-let gameTime = 30;       // tổng thời gian (giây)
+
+/* =========================
+   7. Timer
+========================= */
+let gameTime = 30;
 let currentTime = gameTime;
 let timerInterval = null;
+
 function renderTime() {
   const timeEl = document.querySelector('.time-down');
-
-  const seconds = currentTime < 10
-    ? `0${currentTime}`
-    : currentTime;
-
+  const seconds = currentTime < 10 ? `0${currentTime}` : currentTime;
   timeEl.textContent = `00:${seconds}`;
 }
-function startTimer() {
-  clearInterval(timerInterval); // phòng double timer
 
+function startTimer() {
+  clearInterval(timerInterval);
   currentTime = gameTime;
   renderTime();
 
@@ -166,22 +170,106 @@ function startTimer() {
     }
   }, 1000);
 }
-function handleTimeUp() {
-  console.log('⏰ Time up!');
-  lockBoard = true; // khoá toàn bộ card
 
-  // sau này có thể:
-  // show popup Game Over
+function handleTimeUp() {
+  lockBoard = true;
+  
+  if (matchedPairs < WIN_CONDITION) {
+    showGameOverModal();
+  }
 }
+
+/* =========================
+   8. Modals
+========================= */
+const winModal = document.getElementById('win-modal');
+const gameOverModal = document.getElementById('gameover-modal');
+
+function showWinModal() {
+  setTimeout(() => {
+    winModal.classList.remove('is-hidden');
+  }, 500);
+}
+
+function showGameOverModal() {
+  setTimeout(() => {
+    const matchedCountEl = document.getElementById('matched-count');
+    matchedCountEl.textContent = matchedPairs;
+    
+    gameOverModal.classList.remove('is-hidden');
+  }, 500);
+}
+
+/* =========================
+   9. Reset Game
+========================= */
+function resetGame() {
+  // Reset variables
+  matchedPairs = 0;
+  
+  // Hide all modals
+  winModal.classList.add('is-hidden');
+  gameOverModal.classList.add('is-hidden');
+
+  // Reset timer
+  clearInterval(timerInterval);
+  
+  // Recreate and shuffle cards
+  createMultipliedCards();
+  shuffleCards(multipliedCards);
+  
+  // Re-render cards
+  renderCards();
+  
+  // Re-init flip logic
+  resetBoard();
+  initFlipCard();
+  
+  // Start timer
+  startTimer();
+}
+
+/* =========================
+   10. Screen Navigation
+========================= */
 const playBtn = document.querySelector('.btn--play');
 const homeScreen = document.getElementById('home_screen');
 const gameScreen = document.getElementById('game-screen');
 
 playBtn.addEventListener('click', () => {
-  // 1. Chuyển màn hình
   homeScreen.classList.add('is-hidden');
   gameScreen.classList.remove('is-hidden');
-
-  // 2. Reset & start timer
   startTimer();
 });
+
+/* =========================
+   11. Modal Buttons
+========================= */
+const homeBtn = document.querySelector('.btn--home');
+const retryBtn = document.querySelector('.btn--retry');
+
+// HOME button - quay về home screen
+if (homeBtn) {
+  homeBtn.addEventListener('click', () => {
+    winModal.classList.add('is-hidden');
+    gameScreen.classList.add('is-hidden');
+    homeScreen.classList.remove('is-hidden');
+    
+    // Reset game state
+    matchedPairs = 0;
+    clearInterval(timerInterval);
+    createMultipliedCards();
+    shuffleCards(multipliedCards);
+    renderCards();
+    resetBoard();
+    initFlipCard();
+  });
+}
+
+// TRY AGAIN button - chơi lại
+if (retryBtn) {
+  retryBtn.addEventListener('click', () => {
+    gameOverModal.classList.add('is-hidden');
+    resetGame();
+  });
+}
