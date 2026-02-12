@@ -3,12 +3,7 @@
     margin: 0;
     padding: 0;
     -webkit-tap-highlight-color: transparent;
-    -webkit-tap-highlight-color: transparent;
 }
-
-/* ================================================
-   MOBILE FIRST (Default - 0-767px)
-================================================ */
 
 /* ================================================
    MOBILE FIRST (Default - 0-767px)
@@ -19,12 +14,7 @@
     min-height: 100vh;
     /* background-color: #AF0000; */
     overflow-x: hidden;
-    width: 100vw;
-    min-height: 100vh;
-    /* background-color: #AF0000; */
-    overflow-x: hidden;
 }
-
 
 .game-wrapper {
     position: relative;
@@ -35,20 +25,12 @@
     min-height: 100vh;
     gap: 30px;
     padding-bottom: 20px;
-    justify-content: flex-start;
-    min-height: 100vh;
-    gap: 30px;
-    padding-bottom: 20px;
 }
-
 
 .home-screen {
     padding-bottom: 80px;
     justify-content: flex-start;
-    padding-bottom: 80px;
-    justify-content: flex-start;
 }
-
 
 .bg-video {
     position: absolute;
@@ -59,93 +41,68 @@
     z-index: -1;
 }
 
-
 .home-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     /* gap: 20px; */
-    /* gap: 20px; */
 }
 
-
 .title {
-    width: 90%;
-    max-width: 280px;
-    height: 200px;
     width: 90%;
     max-width: 280px;
     height: 200px;
     z-index: 5;
     background-image: url(/assets/Title.png);
     background-size: contain;
-    background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
 }
-
 
 .h1 {
     margin: 0px;
     width: 90%;
     max-width: 320px;
-    width: 90%;
-    max-width: 320px;
     text-align: center;
     font-family: Open Sans;
     font-size: 24px;
-    font-size: 24px;
     line-height: 120%;
-    font-weight: 800;
     font-weight: 800;
     color: #FDF493;
 }
-
 
 .desc {
     margin: 0px;
     width: 90%;
     max-width: 300px;
-    width: 90%;
-    max-width: 300px;
     text-align: center;
     font-family: Open Sans;
-    font-size: 16px;
     font-size: 16px;
     line-height: 120%;
     font-weight: 400;
     color: #FDF493;
 }
 
-
 .action {
     display: flex;
-    flex-direction: column;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 12px;
-    gap: 12px;
 }
 
-
 .btn {
-    padding-bottom: 10px;
     padding-bottom: 10px;
     display: flex;
     flex-direction: column;
     text-align: center;
     align-items: center;
     justify-content: center;
-    justify-content: center;
     color: #DB0011;
     font-family: Open Sans;
     font-size: 20px;
-    font-size: 20px;
     line-height: 120%;
     font-weight: 700;
-    width: 200px;
-    height: 70px;
     width: 200px;
     height: 70px;
     cursor: pointer;
@@ -158,17 +115,11 @@
 .btn:active {
     transform: scale(0.96);
     transition: 150ms;
-
-.btn:active {
-    transform: scale(0.96);
-    transition: 150ms;
 }
-
 
 .btn {
     animation: pulse 1.5s infinite;
 }
-
 
 @keyframes pulse {
     0% { transform: scale(1); }
@@ -176,14 +127,9 @@
     100% { transform: scale(1);}
 }
 
-
 video {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    object-fit: cover;
-    height: 100vh;
-    width: 100vw;
+  height: 100vh;
+  width: 100vw;
 }
 
 /* GAME SCREEN SECTION */
@@ -194,10 +140,7 @@ video {
     background-size: cover;
     padding-bottom: 20px;
     gap: 20px;
-    padding-bottom: 20px;
-    gap: 20px;
 }
-
 
 .countdown {
     position: relative;
@@ -205,9 +148,7 @@ video {
     flex-direction: column;
     align-items: center;
     padding-block: 25px;
-    padding-block: 25px;
     font-family: Open Sans;
-    font-size: 18px;
     font-size: 18px;
     font-weight: 700;
     line-height: 100%;
@@ -215,10 +156,7 @@ video {
     overflow: hidden;
     width: 230px;
     height: 150px;
-    width: 230px;
-    height: 150px;
 }
-
 
 .time-bg {
     position: absolute;
@@ -226,25 +164,18 @@ video {
     z-index: 0;
     width: 100%;
     height: auto;
-    width: 100%;
-    height: auto;
 }
 
-
 .time-down {
-    font-size: 50px;
-    line-height: 68px;
     font-size: 50px;
     line-height: 68px;
     color: #fff;
     z-index: 2;
 }
 
-
 p {
     z-index: 2;
 }
-
 
 /* game area */
 .game-area {
@@ -252,31 +183,23 @@ p {
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    gap: 20px;
 }
-
 
 /* card animation */
 .card-wrapper {
-    width: 90px;
-    height: 90px;
     width: 90px;
     height: 90px;
     perspective: 1000px;
     cursor: pointer;
 }
 
-
 .card-inner {
-    width: 100%;
-    height: 100%;
     width: 100%;
     height: 100%;
     position: relative;
     transform-style: preserve-3d;
     transition: transform 0.6s ease;
 }
-
 
 .card-back,
 .card-front {
@@ -286,64 +209,40 @@ p {
     backface-visibility: hidden;
 }
 
-
 .card-front {
     transform: rotateY(180deg);
 }
-
 
 .card-back {
     transform: rotateY(0deg);
 }
 
-
 .card-wrapper.is-flipped .card-inner {
     transform: rotateY(180deg);
-    transform: rotateY(180deg);
 }
-
 
 .card-wrapper {
     transition: transform 0.2s ease;
-    transition: transform 0.2s ease;
 }
 
 .card-wrapper:active {
     transform: scale(0.9);
-
-.card-wrapper:active {
-    transform: scale(0.9);
 }
-
 
 .cards-game {
     display: grid;
     grid-template-columns: repeat(4, 80px);
     row-gap: 15px;
     column-gap: 15px;
-    grid-template-columns: repeat(4, 80px);
-    row-gap: 15px;
-    column-gap: 15px;
     place-items: center;
 }
 
-
 .is-hidden {
-    display: none;
     display: none;
 }
 
-
 /* Modal base */
 .modal {
-    position: fixed;
-    inset: 0;
-    z-index: 999;
-    display: flex;
-    padding-top: 15%;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
     position: fixed;
     inset: 0;
     z-index: 999;
@@ -358,9 +257,6 @@ p {
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.6);
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
 }
 
 .modal-content {
@@ -372,17 +268,8 @@ p {
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
-    z-index: 2;
-    width: 90%;
-    max-width: 380px;
-    height: 490px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
-/* Top scroll */
 /* Top scroll */
 .scroll-top {
     width: 100%;
@@ -390,14 +277,8 @@ p {
     position: relative;
     z-index: 3;
     animation: slideDown 0.5s ease-out;
-    width: 100%;
-    height: auto;
-    position: relative;
-    z-index: 3;
-    animation: slideDown 0.5s ease-out;
 }
 
-/* Body wrapper */
 /* Body wrapper */
 .scroll-body-wrapper {
     width: 100%;
@@ -415,7 +296,6 @@ p {
 }
 
 /* Body scroll image */
-/* Body scroll image */
 .scroll-body {
     position: absolute;
     top: -5px;
@@ -423,15 +303,8 @@ p {
     height: 590px;
     object-fit: cover;
     z-index: 1;
-    position: absolute;
-    top: -5px;
-    width: 280px;
-    height: 590px;
-    object-fit: cover;
-    z-index: 1;
 }
 
-/* Bottom scroll */
 /* Bottom scroll */
 .scroll-bottom {
     width: 100%;
@@ -439,30 +312,10 @@ p {
     position: relative;
     z-index: 1;
     animation: slideDownFromTop 0.8s ease-out 0.5s both;
-    width: 100%;
-    height: auto;
-    position: relative;
-    z-index: 1;
-    animation: slideDownFromTop 0.8s ease-out 0.5s both;
 }
 
-/* Content container */
 /* Content container */
 .modal-scroll-content {
-    width: 100%;
-    text-align: center;
-    position: relative;
-    z-index: 2;
-    opacity: 0;
-    animation: fadeIn 0.6s ease-out 1.2s forwards;
-    padding: 20px 10px;
-}
-
-.modal-scroll-content img {
-    width: 90% !important;
-    max-width: 260px !important;
-    height: auto !important;
-    margin-bottom: 10px;
     width: 100%;
     text-align: center;
     position: relative;
@@ -489,25 +342,9 @@ p {
         transform: translateY(0);
         opacity: 1;
     }
-    from {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
 }
 
 @keyframes expandBody {
-    from {
-        max-height: 0;
-        opacity: 0;
-    }
-    to {
-        max-height: 500px;
-        opacity: 1;
-    }
     from {
         max-height: 0;
         opacity: 0;
@@ -521,25 +358,6 @@ p {
 @keyframes slideUp {
     from {
         transform: translateY(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-    from {
-        transform: translateY(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slideDownFromTop {
-    from {
-        transform: translateY(-100%);
         opacity: 0;
     }
     to {
@@ -568,25 +386,10 @@ p {
         opacity: 1;
         transform: translateY(0);
     }
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 /* Styling for content */
-/* Styling for content */
 .modal-subtitle {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    color: #FFE5A0;
-    line-height: 1.3;
-    margin-bottom: 10px;
     font-family: 'Open Sans', sans-serif;
     font-size: 24px;
     font-weight: 700;
@@ -602,34 +405,13 @@ p {
     color: #FFE5A0;
     line-height: 1.4;
     margin-bottom: 20px;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 18px;
-    font-weight: 400;
-    color: #FFE5A0;
-    line-height: 1.4;
-    margin-bottom: 20px;
 }
 
 .is-hidden {
     display: none !important;
-    display: none !important;
 }
-
 
 .modal-btn-home {
-    position: absolute;
-    bottom: -160px;
-    z-index: 9;
-    opacity: 0;
-    animation: pulse 1.5s infinite, fadeIn 0.6s ease-out 1.4s forwards !important;
-}
-
-.modal-content-rank .modal-btn-home {
-    position: absolute;
-    bottom: 0px;
-    z-index: 9;
-    opacity: 0;
-    animation: pulse 1.5s infinite, fadeIn 0.6s ease-out 1.4s forwards !important;
     position: absolute;
     bottom: -160px;
     z-index: 9;
