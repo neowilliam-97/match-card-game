@@ -343,7 +343,7 @@ initFlipCard();
 /* =========================
    7. Timer
 ========================= */
-let gameTime = 30;
+let gameTime = 15;
 let currentTime = gameTime;
 let timerInterval = null;
 let finalTime = 0; // ADDED: Lưu thời gian chiến thắng
