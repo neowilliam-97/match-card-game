@@ -83,78 +83,78 @@ if (document.readyState === 'loading') {
 /* =========================
    0.5 Auto Redirect to Home (Inactivity Timer)
 ========================= */
-// let inactivityTimer = null;
-// const INACTIVITY_TIME = 10000; // 10 giây (đơn vị: milliseconds)
+let inactivityTimer = null;
+const INACTIVITY_TIME = 10000; // 10 giây (đơn vị: milliseconds)
 
-// function resetInactivityTimer() {
-//   // Clear timer hiện tại
-//   if (inactivityTimer) {
-//     clearTimeout(inactivityTimer);
-//   }
+function resetInactivityTimer() {
+  // Clear timer hiện tại
+  if (inactivityTimer) {
+    clearTimeout(inactivityTimer);
+  }
   
-//   // Chỉ set timer khi KHÔNG ở home screen
-//   const homeScreen = document.getElementById('home_screen');
-//   const isOnHomeScreen = !homeScreen.classList.contains('is-hidden');
+  // Chỉ set timer khi KHÔNG ở home screen
+  const homeScreen = document.getElementById('home_screen');
+  const isOnHomeScreen = !homeScreen.classList.contains('is-hidden');
   
-//   if (isOnHomeScreen) {
-//     console.log('On home screen, inactivity timer disabled');
-//     return;
-//   }
+  if (isOnHomeScreen) {
+    console.log('On home screen, inactivity timer disabled');
+    return;
+  }
   
-//   console.log('Resetting inactivity timer...');
+  console.log('Resetting inactivity timer...');
   
-//   // Set timer mới
-//   inactivityTimer = setTimeout(() => {
-//     console.log('User inactive for 10 seconds, redirecting to home...');
-//     redirectToHome();
-//   }, INACTIVITY_TIME);
-// }
+  // Set timer mới
+  inactivityTimer = setTimeout(() => {
+    console.log('User inactive for 10 seconds, redirecting to home...');
+    redirectToHome();
+  }, INACTIVITY_TIME);
+}
 
-// function redirectToHome() {
-//   const homeScreen = document.getElementById('home_screen');
-//   const gameScreen = document.getElementById('game-screen');
-//   const winModal = document.getElementById('win-modal');
-//   const gameOverModal = document.getElementById('gameover-modal');
-//   const rankModal = document.getElementById('rank-modal'); // ADDED
+function redirectToHome() {
+  const homeScreen = document.getElementById('home_screen');
+  const gameScreen = document.getElementById('game-screen');
+  const winModal = document.getElementById('win-modal');
+  const gameOverModal = document.getElementById('gameover-modal');
+  const rankModal = document.getElementById('rank-modal'); // ADDED
   
-//   // Hide all screens and modals
-//   gameScreen.classList.add('is-hidden');
-//   winModal.classList.add('is-hidden');
-//   gameOverModal.classList.add('is-hidden');
-//   rankModal.classList.add('is-hidden'); // ADDED
+  // Hide all screens and modals
+  gameScreen.classList.add('is-hidden');
+  winModal.classList.add('is-hidden');
+  gameOverModal.classList.add('is-hidden');
+  rankModal.classList.add('is-hidden'); // ADDED
   
-//   // Show home screen
-//   homeScreen.classList.remove('is-hidden');
+  // Show home screen
+  homeScreen.classList.remove('is-hidden');
   
-//   // Remove all matched and shake classes
-//   document.querySelectorAll('.card-wrapper').forEach(card => {
-//     card.classList.remove('is-matched', 'shake', 'is-flipped');
-//   });
+  // Remove all matched and shake classes
+  document.querySelectorAll('.card-wrapper').forEach(card => {
+    card.classList.remove('is-matched', 'shake', 'is-flipped');
+  });
   
-//   // Reset game state
-//   matchedPairs = 0;
-//   clearInterval(timerInterval);
-//   createMultipliedCards();
-//   shuffleCards(multipliedCards);
-//   renderCards();
-//   resetBoard();
-//   initFlipCard();
+  // Reset game state
+  matchedPairs = 0;
+  clearInterval(timerInterval);
+  createMultipliedCards();
+  shuffleCards(multipliedCards);
+  renderCards();
+  resetBoard();
+  initFlipCard();
   
-//   // Clear inactivity timer
-//   if (inactivityTimer) {
-//     clearTimeout(inactivityTimer);
-//     inactivityTimer = null;
-//   }
+  // Clear inactivity timer
+  if (inactivityTimer) {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = null;
+  }
   
-//   console.log('Redirected to home screen');
-// }
+  console.log('Redirected to home screen');
+}
 
-// // Lắng nghe các sự kiện user interaction
-// const interactionEvents = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+// Lắng nghe các sự kiện user interaction
+const interactionEvents = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
 
-// interactionEvents.forEach(event => {
-//   document.addEventListener(event, resetInactivityTimer, true);
-// });
+interactionEvents.forEach(event => {
+  document.addEventListener(event, resetInactivityTimer, true);
+});
 
 /* =========================
    1. Button Audio
